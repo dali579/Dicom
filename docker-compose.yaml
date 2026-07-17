@@ -1,0 +1,99 @@
+version: "3.9"
+
+
+services:
+
+
+  mysql:
+
+    image: mysql:8.0
+
+    container_name: dicom-mysql
+
+    restart: always
+
+    environment:
+
+      MYSQL_ROOT_PASSWORD: root
+
+      MYSQL_DATABASE: dicomdb
+
+    ports:
+
+      - "3306:3306"
+
+
+    volumes:
+
+      - mysql_data:/var/lib/mysql
+
+
+
+  backend:
+
+    build:
+
+      context: ./Backend
+
+
+    container_name: dicom-api
+
+
+    restart: always
+
+
+    depends_on:
+
+      - mysql
+
+
+    environment:
+
+      ASPNETCORE_ENVIRONMENT: Development
+
+      ConnectionStrings__DefaultConnection: "server=mysql;port=3306;database=dicomdb;user=root;password=root"
+
+
+    ports:
+
+      - "5000:8080"
+
+
+    volumes:
+
+      - dicom_files:/app/StoredFiles
+
+
+
+
+
+  frontend:
+
+
+    build:
+
+      context: ./DICOM-Viewer
+
+
+    container_name: dicom-react
+
+
+    restart: always
+
+
+    depends_on:
+
+      - backend
+
+
+    ports:
+
+      - "3000:80"
+
+
+
+volumes:
+
+  mysql_data:
+
+  dicom_files:

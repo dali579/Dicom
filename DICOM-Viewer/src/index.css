@@ -1,0 +1,84 @@
+.dicom-app{
+    min-height:100vh;
+    background:#020617;
+    color:white;
+    font-family:Inter,Arial,sans-serif;
+}
+
+.dicom-header{
+    height:80px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 30px;
+    background:#0f172a;
+    border-bottom:1px solid #1e293b;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.brand-icon{
+    font-size:40px;
+}
+
+.brand h1{
+    margin:0;
+    font-size:24px;
+}
+
+.brand p{
+    margin:5px 0;
+    color:#94a3b8;
+}
+
+.header-status{
+    display:flex;
+    gap:20px;
+    color:#94a3b8;
+}
+
+.status-online{
+    color:#22c55e;
+}
+
+.dicom-content{
+    padding:25px;
+    display:flex;
+    flex-direction:column;
+    gap:25px;
+}
+
+.upload-section{
+    background:#0f172a;
+    padding:25px;
+    border-radius:20px;
+}
+
+.upload-section h2,
+.study-section h2{
+    margin-top:0;
+}
+
+.study-section{
+    background:white;
+    color:#0f172a;
+    padding:25px;
+    border-radius:20px;
+}
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.image-section{
+    height:650px;
+    background:#000;
+    border-radius:20px;
+    overflow:hidden;
+}
