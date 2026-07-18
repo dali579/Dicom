@@ -6,7 +6,10 @@ using Mini_visualiseur_DICOM_web.Application.DTO.DicomViewer.Api.Dtos;
         {
             Task<DicomStudyUploadResultDto> ImportAsync(IFormFile file, CancellationToken ct = default);
             Task<List<DicomStudyDto>> GetAllAsync(CancellationToken ct = default);
-        Task<byte[]?> GetImageAsync(Guid studyId, CancellationToken ct = default);
+        Task<byte[]?> GetImageAsync(
+    Guid studyId,
+    double? ww,
+    double? wl, CancellationToken ct = default);
 
     }
 }

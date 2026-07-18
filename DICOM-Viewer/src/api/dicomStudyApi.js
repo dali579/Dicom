@@ -48,6 +48,6 @@ export async function fetchDicomStudies({ signal } = {}) {
 }
 
 
-export function getDicomImageUrl(studyId) {
-  return `${BASE_URL}/${studyId}/image`;
+export function getDicomImageUrl(id, ww, wl) {
+    return `${BASE_URL}/${id}/image?ww=${ww}&wl=${wl}`;
 }

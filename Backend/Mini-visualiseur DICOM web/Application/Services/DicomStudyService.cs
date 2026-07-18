@@ -25,25 +25,55 @@ namespace Mini_visualiseur_DICOM_web.Application.Services
             Directory.CreateDirectory(_storageRoot);
         }
 
-        public async Task<DicomStudyUploadResultDto> ImportAsync(IFormFile file, CancellationToken ct = default)
+        public async Task<DicomStudyUploadResultDto> ImportAsync(
+        IFormFile file,
+        CancellationToken ct = default)
         {
             var id = Guid.NewGuid();
+
             var storedPath = Path.Combine(_storageRoot, $"{id}.dcm");
 
             await SaveToDiskAsync(file, storedPath, ct);
 
             var dicomFile = DicomFile.Open(storedPath);
+
             var dataset = dicomFile.Dataset;
 
-            var study = BuildStudyEntity(id, file, storedPath, dataset);
+            var studyInstanceUid = dataset.GetSingleValueOrDefault(
+                DicomTag.StudyInstanceUID,
+                string.Empty);
+
+            if (string.IsNullOrWhiteSpace(studyInstanceUid))
+            {
+                throw new InvalidOperationException("Cette étude DICOM existe déjà.");
+            }
+
+            bool exists = await _repository.ExistsByStudyInstanceUidAsync(
+                studyInstanceUid,
+                ct);
+
+            if (exists)
+            {
+                File.Delete(storedPath);
+
+                throw new Exception("Cette étude DICOM existe déjà.");
+            }
+
+            var study = BuildStudyEntity(
+                id,
+                file,
+                storedPath,
+                dataset);
 
             await _repository.AddAsync(study, ct);
 
-            _logger.LogInformation("Étude DICOM importée : {Id} ({FileName})", study.Id, study.OriginalFileName);
+            _logger.LogInformation(
+                "Étude DICOM importée : {Id} ({FileName})",
+                study.Id,
+                study.OriginalFileName);
 
             return new DicomStudyUploadResultDto(study.Id);
         }
-
         private static async Task SaveToDiskAsync(IFormFile file, string storedPath, CancellationToken ct)
         {
             await using var stream = File.Create(storedPath);
@@ -55,6 +85,10 @@ namespace Mini_visualiseur_DICOM_web.Application.Services
             return new DicomStudy
             {
                 Id = id,
+                StudyInstanceUid = dataset.GetSingleValueOrDefault(
+            DicomTag.StudyInstanceUID,
+            string.Empty),
+
                 PatientId = dataset.GetSingleValueOrDefault(DicomTag.PatientID, string.Empty),
                 PatientName = dataset.GetSingleValueOrDefault(DicomTag.PatientName, string.Empty),
                 Modality = dataset.GetSingleValueOrDefault(DicomTag.Modality, string.Empty),
@@ -94,7 +128,10 @@ namespace Mini_visualiseur_DICOM_web.Application.Services
             s.FileSizeBytes,
             s.UploadedAt
         );
-        public async Task<byte[]?> GetImageAsync(Guid studyId, CancellationToken ct = default)
+        public async Task<byte[]?> GetImageAsync(
+    Guid studyId,
+    double? ww,
+    double? wl, CancellationToken ct = default)
         {
             var study = await _repository.GetByIdAsync(studyId, ct);
 
@@ -107,7 +144,11 @@ namespace Mini_visualiseur_DICOM_web.Application.Services
 
             var dicomImage = new DicomImage(dicomFile.Dataset);
 
-
+            if (ww.HasValue && wl.HasValue)
+            {
+                dicomImage.WindowWidth = ww.Value;
+                dicomImage.WindowCenter = wl.Value;
+            }
             var renderedImage = dicomImage.RenderImage();
 
 

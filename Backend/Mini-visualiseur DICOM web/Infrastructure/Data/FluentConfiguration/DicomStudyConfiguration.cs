@@ -3,6 +3,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using Mini_visualiseur_DICOM_web.Domain;
+    using System.Reflection.Emit;
 
     namespace DicomViewer.Api.Data.Configurations
     {
@@ -45,8 +46,10 @@
                 builder.Property(s => s.UploadedAt)
                     .IsRequired();
 
-                // Index utile pour retrouver rapidement les études d'un patient
                 builder.HasIndex(s => s.PatientId);
+                builder
+      .HasIndex(x => x.StudyInstanceUid)
+      .IsUnique();
             }
         }
     }

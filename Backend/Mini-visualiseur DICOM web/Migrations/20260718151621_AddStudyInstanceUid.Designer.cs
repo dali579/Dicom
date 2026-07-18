@@ -12,8 +12,8 @@ using Mini_visualiseur_DICOM_web.Infrastructure.Data;
 namespace Mini_visualiseur_DICOM_web.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260717103202_first-migration")]
-    partial class firstmigration
+    [Migration("20260718151621_AddStudyInstanceUid")]
+    partial class AddStudyInstanceUid
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,6 +62,10 @@ namespace Mini_visualiseur_DICOM_web.Migrations
                     b.Property<DateTime?>("StudyDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("StudyInstanceUid")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
                     b.Property<DateTime>("UploadedAt")
                         .HasColumnType("datetime(6)");
 
@@ -71,6 +75,9 @@ namespace Mini_visualiseur_DICOM_web.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("PatientId");
+
+                    b.HasIndex("StudyInstanceUid")
+                        .IsUnique();
 
                     b.ToTable("Studies", (string)null);
                 });

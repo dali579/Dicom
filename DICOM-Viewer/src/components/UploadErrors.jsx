@@ -7,7 +7,7 @@ export default function UploadErrors({ errors }) {
       </p>
       <ul>
         {errors.map((err, index) => (
-          <li key={`${err.fileName}-${index}`}><span className="mono">{err.fileName}</span> — {err.message}</li>
+          <li key={`${err.fileName}-${index}`}><span className="mono">{err.fileName}</span> — Déja existe</li>
         ))}
       </ul>
     </div>

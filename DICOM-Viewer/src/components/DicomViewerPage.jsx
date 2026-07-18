@@ -7,7 +7,8 @@ export default function DicomViewerPage({study,onClose}){
 
 const [scale,setScale]=useState(1);
 const [rotate,setRotate]=useState(0);
-
+const [windowWidth, setWindowWidth] = useState(400);
+const [windowLevel, setWindowLevel] = useState(40);
 const zoomIn=()=>{
 setScale(s=>s+0.2);
 };
@@ -20,6 +21,28 @@ const reset=()=>{
 setScale(1);
 setRotate(0);
 };
+function ToolButton({ children, onClick }) {
+    return (
+        <button
+            onClick={onClick}
+            style={{
+                width: "60px",
+                height: "40px",
+                borderRadius: "10px",
+                border: "none",
+                background: "#1e293b",
+                color: "white",
+                cursor: "pointer",
+                fontWeight: "600",
+                transition: "all .25s ease"
+            }}
+            onMouseEnter={e => e.currentTarget.style.background = "#334155"}
+            onMouseLeave={e => e.currentTarget.style.background = "#1e293b"}
+        >
+            {children}
+        </button>
+    );
+}
 
 return(
 
@@ -35,18 +58,45 @@ Sortir
 
 
 <ViewerToolbar
-onZoomIn={zoomIn}
-onZoomOut={zoomOut}
-onRotate={()=>setRotate(r=>r+90)}
-onReset={reset}
-/>
+    onZoomIn={zoomIn}
+    onZoomOut={zoomOut}
+    onRotate={() => setRotate(r => r + 90)}
+    onReset={reset}
 
+    onIncreaseWW={() => setWindowWidth(w => w + 50)}
+    onDecreaseWW={() => setWindowWidth(w => Math.max(1, w - 50))}
+
+    onIncreaseWL={() => setWindowLevel(l => l + 20)}
+    onDecreaseWL={() => setWindowLevel(l => l - 20)}
+/>
+<div style={styles.windowToolbar}>
+
+    <ToolButton onClick={() => setWindowWidth(w => w + 50)}>
+        WW+
+    </ToolButton>
+
+    <ToolButton onClick={() => setWindowWidth(w => Math.max(1, w - 50))}>
+        WW-
+    </ToolButton>
+
+    <ToolButton onClick={() => setWindowLevel(l => l + 20)}>
+        WL+
+    </ToolButton>
+
+    <ToolButton onClick={() => setWindowLevel(l => l - 20)}>
+        WL-
+    </ToolButton>
+
+</div>
 
 <div style={styles.viewer}>
 
 <img
-src={getDicomImageUrl(study.id)}
-alt="DICOM"
+src={getDicomImageUrl(
+    study.id,
+    windowWidth,
+    windowLevel
+)}alt="DICOM"
 style={{
 transform:
 `scale(${scale}) rotate(${rotate}deg)`,
@@ -67,7 +117,23 @@ maxHeight:"90%"
 
 
 const styles={
+windowToolbar:{
+    position:"absolute",
+    bottom:"30px",
+    left:"50%",
+    transform:"translateX(-50%)",
 
+    display:"flex",
+    gap:"10px",
+
+    zIndex:20,
+
+    background:"#111827",
+    padding:"10px",
+    borderRadius:"14px",
+
+    boxShadow:"0 10px 30px rgba(0,0,0,.5)"
+},
 page:{
 position:"fixed",
 top:0,

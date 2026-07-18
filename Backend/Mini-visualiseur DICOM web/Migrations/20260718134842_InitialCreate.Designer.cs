@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mini_visualiseur_DICOM_web.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Mini_visualiseur_DICOM_web.Infrastructure.Data;
 namespace Mini_visualiseur_DICOM_web.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260718134842_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,10 +62,6 @@ namespace Mini_visualiseur_DICOM_web.Migrations
                     b.Property<DateTime?>("StudyDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("StudyInstanceUid")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
                     b.Property<DateTime>("UploadedAt")
                         .HasColumnType("datetime(6)");
 
@@ -72,9 +71,6 @@ namespace Mini_visualiseur_DICOM_web.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("PatientId");
-
-                    b.HasIndex("StudyInstanceUid")
-                        .IsUnique();
 
                     b.ToTable("Studies", (string)null);
                 });

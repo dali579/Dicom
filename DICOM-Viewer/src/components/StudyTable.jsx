@@ -11,9 +11,8 @@ onView
 
 if(loadError){
 return(
-<div style={styles.messageError}>
-<h3>Connexion impossible</h3>
-<p>{loadError}</p>
+<div style={styles.message}>
+    Chargement des examens..
 </div>
 );
 }
@@ -42,10 +41,10 @@ return(
 <tr>
 <th>Modalité</th>
 <th>Patient</th>
-<th>Date</th>
+<th>Date de l'examen</th>
 <th>Dimensions</th>
 <th>Fichier</th>
-<th>Import</th>
+<th>Date importation</th>
 <th>Action</th>
 </tr>
 </thead>

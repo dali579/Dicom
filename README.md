@@ -7,8 +7,8 @@ DICOM Viewer Web est une application web permettant la visualisation et la gesti
 Le projet est composé de trois services principaux :
 
 - **Backend** : API REST développée avec ASP.NET Core (.NET / C#)
-- **Frontend** : Application web développée avec React
-- **Base de données** : MySQL
+- **Frontend** : Application web développée avec React(Le choix de React est motivé par sa modularité, sa rapidité de rendu et sa facilité d'intégration avec les bibliothèques de visualisation médicale.)
+- **Base de données** : MySQL (MySQL a été choisi pour sa fiabilité, sa simplicité d'utilisation et sa capacité à gérer efficacement les données structurées liées aux études et métadonnées DICOM.)
 
 L'ensemble des services est conteneurisé avec Docker afin de faciliter l'installation et le déploiement.
 
@@ -80,13 +80,13 @@ docker compose version
 Cloner le dépôt Git sur votre machine locale :
 
 ```bash
-git clone <URL_DU_DEPOT>
+git clone <"https://github.com/dali579/Dicom.git">
 ```
 
 Puis accéder au dossier du projet :
 
 ```bash
-cd DICOM-Viewer
+cd Dicom
 ```
 
 ---
@@ -124,7 +124,7 @@ Le premier lancement peut prendre quelques minutes, car les images Docker doiven
 ---
 
 # 🌐 Accès à l'application
-
+NB:Attendre que tous les conteneurs soient démarrés et en état de fonctionnement avant d'accéder à l'application.
 Une fois tous les conteneurs démarrés, ouvrir votre navigateur et accéder à :
 
 ```

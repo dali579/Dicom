@@ -31,6 +31,13 @@ namespace Mini_visualiseur_DICOM_web.Infrastructure.Repository
             return await _context.Studies
                 .FirstOrDefaultAsync(x => x.Id == id, ct);
         }
+        public async Task<bool> ExistsByStudyInstanceUidAsync(
+    string studyInstanceUid,
+    CancellationToken ct = default)
+        {
+            return await _context.Studies
+                .AnyAsync(x => x.StudyInstanceUid == studyInstanceUid, ct);
+        }
     }
     }
 

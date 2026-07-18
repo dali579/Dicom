@@ -11,7 +11,12 @@ export default function ViewerToolbar({
   onZoomIn,
   onZoomOut,
   onRotate,
-  onReset
+  onReset,
+    onIncreaseWW,
+    onDecreaseWW,
+
+    onIncreaseWL,
+    onDecreaseWL
 
 }) {
 

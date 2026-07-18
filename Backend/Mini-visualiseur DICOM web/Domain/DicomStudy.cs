@@ -3,6 +3,7 @@
     public class DicomStudy
     {
         public Guid Id { get; set; }
+        public string StudyInstanceUid { get; set; } = string.Empty;
 
         public string? PatientId { get; set; }
         public string? PatientName { get; set; }
