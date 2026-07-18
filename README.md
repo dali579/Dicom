@@ -55,7 +55,10 @@ DICOM-Viewer/
 - Docker Compose
 - Nginx
 
----
+--- 
+
+## Test et validation
+Pour les phases de test et de validation, des fichiers DICOM de test ont été fournis par SAGA et utilisés pour vérifier l'importation, le traitement et l'affichage des images médicales dans l'application.
 
 # 📋 Prérequis
 
