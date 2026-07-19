@@ -83,7 +83,7 @@ docker compose version
 Cloner le dépôt Git sur votre machine locale :
 
 ```bash
-git clone <"https://github.com/dali579/Dicom.git">
+git clone https://github.com/dali579/Dicom.git
 ```
 
 Puis accéder au dossier du projet :
